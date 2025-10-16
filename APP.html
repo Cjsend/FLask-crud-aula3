@@ -1,0 +1,33 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Alunos</title> <style>
+        body { font-family: sans-serif; margin: 20px; }
+        #lista { list-style-type: none; padding: 0; }
+        #lista li { border: 1px solid #ccc; padding: 10px; margin-bottom: 5px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <h1>Alunos Cadastrados</h1> <button onclick="carregar()">Atualizar lista</button> <ul id="lista"></ul> <script> function carregar() { // Faz a requisição GET para a rota /alunos da API
+            fetch('http://127.0.0.1:5000/alunos') .then(res => res.json()) // Converte a resposta para JSON [cite: 151]
+                .then(alunos => { // Processa a lista de alunos [cite: 152]
+                    const lista = document.getElementById('lista'); // [cite: 153]
+                    lista.innerHTML = ""; // Limpa a lista atual [cite: 154]
+
+                    // Itera sobre a lista de alunos e cria um <li> para cada um
+                    alunos.forEach(a => { // [cite: 155]
+                        const li = document.createElement('li'); // [cite: 156]
+                        // Conteúdo: ID NOME (IDADE anos)
+                        li.textContent = `${a.id}: ${a.nome} (${a.idade} anos)`; // [cite: 157]
+                        lista.appendChild(li); // Adiciona o item à lista [cite: 158]
+                    });
+                })
+                .catch(error => console.error('Erro ao carregar alunos:', error));
+        }
+
+        // Carrega a lista automaticamente ao abrir a página
+        carregar(); </script>
+</body>
+</html>
